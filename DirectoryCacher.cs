@@ -10,39 +10,35 @@ namespace DirectoryCacherConsoleApp;
 public class DirectoryCacher
 {
     IMemoryCache m_memoryCache;
-    private string m_path;
-
-    public DirectoryCacher(IMemoryCache memoryCache, string path)
+    public DirectoryCacher(IMemoryCache memoryCache)
     {
         m_memoryCache = memoryCache;
+    }
+
+    public string GetListCache(string path)
+    {
+        string msg = string.Empty;
 
         var dirInfo = new DirectoryInfo(path);
         if (dirInfo.Exists)
         {
-            m_path = path;
+            List<string> cacheList = new List<string>();
+            m_memoryCache.TryGetValue(path, out cacheList);
+
+            if (cacheList == null)
+            {
+                BuildCache(path);
+                m_memoryCache.TryGetValue(path, out cacheList);
+                msg = "Reading directory from drive.";
+            }
+            else
+            {
+                msg = "Reading directory from cache.";
+            }
         }
         else
         {
             throw new DirectoryNotFoundException();
-        };
-
-    }
-
-    public string GetListCache()
-    {
-        string msg = string.Empty;
-        List<string> cacheList = new List<string>();
-        m_memoryCache.TryGetValue(m_path, out cacheList);
-
-        if (cacheList == null)
-        {
-            BuildCache(m_path);
-            m_memoryCache.TryGetValue(m_path, out cacheList);
-            msg = "Reading directory from drive.";
-        }
-        else
-        {
-            msg = "Reading directory from cache.";
         }
 
         return msg;

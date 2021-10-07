@@ -11,15 +11,21 @@ IMemoryCache cache = host.Services.GetRequiredService<IMemoryCache>();
 string dir1 = Environment.CurrentDirectory + @"\Images\abstract\";
 string dir2 = Environment.CurrentDirectory + @"\Images\biology\";
 
-DirectoryCacherConsoleApp.DirectoryCacher dir1Cacher =  new DirectoryCacherConsoleApp.DirectoryCacher(cache, dir1);
-DirectoryCacherConsoleApp.DirectoryCacher dir2Cacher = new DirectoryCacherConsoleApp.DirectoryCacher(cache, dir2);
+DirectoryCacherConsoleApp.DirectoryCacher dirCacher = new DirectoryCacherConsoleApp.DirectoryCacher(cache);
 
+try
+{
 
-// First Pass
-Console.WriteLine(dir1Cacher.GetListCache());
-Console.WriteLine(dir2Cacher.GetListCache());
+    // First Pass
+    Console.WriteLine(dirCacher.GetListCache(dir1));
+    Console.WriteLine(dirCacher.GetListCache(dir2));
 
-// Second Pass
-Console.WriteLine(dir1Cacher.GetListCache());
-Console.WriteLine(dir2Cacher.GetListCache());
+    // Second Pass
+    Console.WriteLine(dirCacher.GetListCache(dir1));
+    Console.WriteLine(dirCacher.GetListCache(dir2));
+}
+catch (Exception ex)
+{
+    // Do something
+}
 
