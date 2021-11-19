@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services => services.AddMemoryCache())
